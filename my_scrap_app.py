@@ -23,11 +23,6 @@ load_(pd.read_excel('data/P1_Ordinateurs.xlsx'), 'Ordinateurs', '1')
 load_(pd.read_excel('data/P1_Telephones.xlsx'), 'Téléphones', '2')
 load_(pd.read_excel('data/P1_cinema.xlsx'), 'Télévision', '3')
 
-'''for i,f in enumerate(glob.glob("data/*.xlsx")):
-    df =pd.read_excel(f)
-    filename = os.path.basename(f).replace(".xlsx", "")  # Extraire le nom du fichier sans extension
-    load_(df, filename, str(i+1))'''
-
 
 def download_dataframe(df):
     """Permet de télécharger un DataFrame en CSV."""
