@@ -51,11 +51,11 @@ if menu == "📊 Scraper des données":
     st.title("Scraper des données")
     categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
-        #Creation de deux colonnes pour aligner les boutons sur la même ligne  
-        col1,col2=st.columns(2)
-        with col1:
-            lance_scrap=st.button("Lancer le scraping")
-        with col2:
+    #Creation de deux colonnes pour aligner les boutons sur la même ligne  
+    col1,col2=st.columns(2)
+    with col1:
+        lance_scrap=st.button("Lancer le scraping")
+    with col2:
             telecharger_donne=st.button("📥 Télécharger les données")
     if lance_scrap:         
         if categorie=="Ordinateurs":
