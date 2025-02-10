@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup as bs
 import glob
 
 
-# Configuration de la page
-st.set_page_config(page_title="Web Scraping App", layout="black")
+# Configuration de la page , layout="black"
+st.set_page_config(page_title="Web Scraping App")
 
 
 def load_(dataframe, title):
