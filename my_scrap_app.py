@@ -30,7 +30,7 @@ categorie=st.sidebar.selectbox("Choisissez une catégorie: ",["Ordinateurs","Té
 #Affichage des données selon sélection
 if categorie=="Ordinateurs":load_(df_ordinateurs,"Ordinateurs")
 elif categorie=="Téléphones":load_(df_telephones,"Téléphones")
-elif categorie=="Télévision":load_(df_television,"TTélévision")
+elif categorie=="Télévision":load_(df_television,"Télévision")
 
 
 def download_dataframe(df):
