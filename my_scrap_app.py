@@ -123,12 +123,15 @@ if menu == "📊 Scraper des données":
         if categorie=="Ordinateurs":
             url="https://www.expat-dakar.com/ordinateurs?page=1"
             df=scrape_data_ordin(url)
+            load_(df,"Ordinateurs")
         elif categorie=="Téléphones":
             url="https://www.expat-dakar.com/telephones?page=1"
             df=scrape_data_telep(url)
+            load_(df,"Téléphones")
         elif categorie=="Télévision":
-            url="hhttps://www.expat-dakar.com/tv-home-cinema?page=1"
+            url="https://www.expat-dakar.com/tv-home-cinema?page=1"
             df=scrape_data_tele(url)
+            load_(df,"Télévision")
     
      #Telecharger les données scrappées  
     if telecharger_donne:
@@ -142,16 +145,3 @@ df_television=pd.read_excel('data/P1_cinema.xlsx')
 
 #Ajout dune liste déroulante dans la barre lateralle
 categorie=st.sidebar.selectbox("Télécharger les données déjà scrapper: choisissez une catégorie ",["Ordinateurs","Téléphones","Télévision"])
-
-#Affichage des données selon sélection
-if categorie=="Ordinateurs":
-    load_(df_ordinateurs,"Ordinateurs")
-elif categorie=="Téléphones":
-    load_(df_telephones,"Téléphones")
-elif categorie=="Télévision":
-    load_(df_television,"Télévision")
-
-#
-
-
-
