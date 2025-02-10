@@ -7,7 +7,7 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
 
-def load_(dataframe, title, key):
+def load_(dataframe, title):
     st.markdown("""
     <style>
     div.stButton {text-align:center}
