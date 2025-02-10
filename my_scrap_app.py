@@ -6,6 +6,13 @@ import requests
 from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 #--------------------------------------------------------------------------
 #Charger les donnéés
 def load_(dataframe, title):
