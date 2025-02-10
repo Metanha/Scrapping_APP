@@ -25,7 +25,7 @@ df_telephones=pd.read_excel('data/P1_Telephones.xlsx')
 df_television=pd.read_excel('data/P1_cinema.xlsx')
 
 #Ajout dune liste déroulante dans la barre lateralle
-categorie=st.sidebar.selectbox("Choisissez une catégorie: ",["Ordinateurs","Téléphones","Télévision"])
+categorie=st.sidebar.selectbox("Télécharger les données déjà scrapper: choisissez une catégorie ",["Ordinateurs","Téléphones","Télévision"])
 
 #Affichage des données selon sélection
 if categorie=="Ordinateurs":
