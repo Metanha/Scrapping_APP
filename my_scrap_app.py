@@ -62,5 +62,5 @@ def scrape_data(url):
             print(f"Erreur lors de l'extraction d'un contenu : {e}")
             return None
 
-download_dataframe(scrape_data(url))
+#download_dataframe(scrape_data(url))
 
