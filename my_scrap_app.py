@@ -9,7 +9,7 @@ import glob
 
 
 # Configuration de la page
-st.set_page_config(page_title="Web Scraping App", layout="wide")
+st.set_page_config(page_title="Web Scraping App", layout="black")
 
 
 def load_(dataframe, title):
