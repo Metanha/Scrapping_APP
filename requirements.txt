@@ -9,3 +9,5 @@ seaborn
 pybase64
 beautifulsoup4
 openpyxl
+webdriver-manager
+selenium
