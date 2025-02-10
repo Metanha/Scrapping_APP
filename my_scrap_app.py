@@ -70,7 +70,7 @@ if menu == "📊 Scraper des données":
     
      #Telecharger les données scrappées  
     if telecharger_donne:
-        csv = df.to_csv(index=False).encode('utf-8')
+        csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
         
 def load_(dataframe, title):
     st.markdown("""
