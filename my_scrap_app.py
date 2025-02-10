@@ -7,6 +7,11 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
 
+
+# Configuration de la page
+st.set_page_config(page_title="Web Scraping App", layout="wide")
+
+
 def load_(dataframe, title):
     st.markdown("""
     <style>
