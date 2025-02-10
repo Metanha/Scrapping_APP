@@ -48,6 +48,9 @@ menu = st.sidebar.radio(
 
 # 1️⃣ **Scraper des données en temps réel**
 if menu == "📊 Scraper des données":
+    #le nombre de pages a scrapper
+    page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
+    
     st.title("Scraper des données")
     categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
@@ -80,7 +83,7 @@ def load_(dataframe, title):
 
     #if st.button(title, key):
     st.subheader('Display data dimension')
-    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
+    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' lignes et ' + str(dataframe.shape[1]) + ' colonnes.')
     st.dataframe(dataframe)
 
 
@@ -101,6 +104,6 @@ elif categorie=="Télévision":
     load_(df_television,"Télévision")
 
 #
-page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
+
 
 
