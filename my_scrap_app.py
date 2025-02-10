@@ -13,15 +13,24 @@ def load_(dataframe, title, key):
     div.stButton {text-align:center}
     </style>""", unsafe_allow_html=True)
 
-    if st.button(title, key):
-        st.subheader('Display data dimension')
-        st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
-        st.dataframe(dataframe)
+    #if st.button(title, key):
+    st.subheader('Display data dimension')
+    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
+    st.dataframe(dataframe)
 
 
-load_(pd.read_excel('data/P1_Ordinateurs.xlsx'), 'Ordinateurs', '1')
-load_(pd.read_excel('data/P1_Telephones.xlsx'), 'Téléphones', '2')
-load_(pd.read_excel('data/P1_cinema.xlsx'), 'Télévision', '3')
+#chargement des données
+df_ordinateurs=pd.read_excel('data/P1_Ordinateurs.xlsx')
+df_telephones=pd.read_excel('data/P1_Telephones.xlsx')
+df_television=pd.read_excel('data/P1_cinema.xlsx')
+
+#Ajout dune liste déroulante dans la barre lateralle
+categorie=st.sidebar.selectbox("Choisissez une catégorie: ",["Ordinateurs","Téléphones","Télévision"])
+
+#Affichage des données selon sélection
+if categorie=="Ordinateurs":load_(df_ordinateurs,"Ordinateurs")
+elif categorie=="Téléphones":load_(df_telephones,"Téléphones")
+elif categorie=="Télévision":load_(df_television,"TTélévision")
 
 
 def download_dataframe(df):
