@@ -35,6 +35,9 @@ elif categorie=="Téléphones":
 elif categorie=="Télévision":
     load_(df_television,"Télévision")
 
+#
+page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
+
 
 def download_dataframe(df):
     """Permet de télécharger un DataFrame en CSV."""
