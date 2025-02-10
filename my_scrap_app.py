@@ -52,7 +52,7 @@ st.set_page_config(page_title="Web Scraping App")
 # Barre latérale pour la navigation
 menu = st.sidebar.radio(
     "Navigation",
-    ["📊 Scraper des données", "📥 Télécharger des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"]
+    ["📊 Scraper des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"]
 )
 
 # 1️⃣ **Scraper des données en temps réel**
