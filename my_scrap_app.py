@@ -62,6 +62,9 @@ if menu == "📊 Scraper des données":
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
     
     if st.button("Lancer le scraping"):
+        #Creation de deux colonnes pour aligner les boutons sur la même ligne
+        col1,col2=st.columns(2)
+        with col1:
         if categorie=="Ordinateurs":
             url="https://www.expat-dakar.com/ordinateurs?page=1"
             df=scrape_data_ordin(url)
@@ -72,8 +75,9 @@ if menu == "📊 Scraper des données":
             url="hhttps://www.expat-dakar.com/tv-home-cinema?page=1"
             df=scrape_data_ordin(url)
     
-     #Telecharger les données scrappées       
-    elif st.button("📥 Télécharger les données"):
+     #Telecharger les données scrappées  
+    with col2:
+    if st.button("📥 Télécharger les données"):
         download_dataframe(df)
         
 
@@ -108,36 +112,4 @@ elif categorie=="Télévision":
 #
 page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
 
-
-
-
-url="https://www.expat-dakar.com/ordinateurs?page=1"
-def scrape_data(url):
-    """Scrape les données d'une page Expat-Dakar."""
-    
-    res=get(url) # récupère le code HTML de la page
-    soup=bs(res.text,"html.parser") #stocker le code html dans un objet beautifulSoup ,
-
-    contenairs=soup.find_all("div",class_="listing-card__content 1")
-
-    data=pd.DataFrame(columns=["Details","Etat","Marque","Addresse","Prix","Lien_image"])
-    
-    for content in contenairs:
-        try:
-            details=content.find("div",class_="listing-card__header__title").text.replace("\n","").replace("  ","")
-            Etat=content.find("div",class_="listing-card__header__tags").find_all("span")[0].text
-            Marque=content.find("div",class_="listing-card__header__tags").find_all("span")[1].text
-            Addresse=content.find("div",class_="listing-card__header__location").text.replace("\n","").replace("  ","")
-            Prix=content.find("div",class_="listing-card__info-bar__price").find("span",class_="listing-card__price__value 1").text.replace("\n","").replace("F Cfa","").replace("\u202f","").replace(" ","")
-            Lien_image=content.find_all("img", class_="listing-card__image__resource vh-img") #["src"]
-    
-            d=pd.DataFrame({"Details":[details],"Etat":[Etat],"Marque":[Marque],"Addresse":[Addresse],"Prix":[Prix],"Lien_image":[Lien_image]})
-            
-            data=pd.concat([data,d],ignore_index=True)
-            return data
-        except Exception as e:
-            print(f"Erreur lors de l'extraction d'un contenu : {e}")
-            return None
-
-#download_dataframe(scrape_data(url))
 
