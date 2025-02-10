@@ -28,9 +28,12 @@ df_television=pd.read_excel('data/P1_cinema.xlsx')
 categorie=st.sidebar.selectbox("Choisissez une catégorie: ",["Ordinateurs","Téléphones","Télévision"])
 
 #Affichage des données selon sélection
-if categorie=="Ordinateurs":load_(df_ordinateurs,"Ordinateurs")
-elif categorie=="Téléphones":load_(df_telephones,"Téléphones")
-elif categorie=="Télévision":load_(df_television,"Télévision")
+if categorie=="Ordinateurs":
+    load_(df_ordinateurs,"Ordinateurs")
+elif categorie=="Téléphones":
+    load_(df_telephones,"Téléphones")
+elif categorie=="Télévision":
+    load_(df_television,"Télévision")
 
 
 def download_dataframe(df):
