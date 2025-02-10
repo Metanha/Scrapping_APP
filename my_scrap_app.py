@@ -7,15 +7,6 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
 #--------------------------------------------------------------------------
-#Telecharger les données
-def download_dataframe(df):
-    """Permet de télécharger un DataFrame en CSV."""
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        label="📥 Télécharger les données",
-        data=csv,
-        file_name="donnees_scrapees.csv"
-    )
 
 ############## CODE SCRAPING DES ORDINATEURS
 def scrape_data_ordin(url):
@@ -60,11 +51,13 @@ if menu == "📊 Scraper des données":
     st.title("Scraper des données")
     categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
-    
-    if st.button("Lancer le scraping"):
-        #Creation de deux colonnes pour aligner les boutons sur la même ligne
+        #Creation de deux colonnes pour aligner les boutons sur la même ligne  
         col1,col2=st.columns(2)
         with col1:
+            lance_scrap=st.button("Lancer le scraping")
+        with col2:
+            telecharger_donne=st.button("📥 Télécharger les données")
+    if lance_scrap:         
         if categorie=="Ordinateurs":
             url="https://www.expat-dakar.com/ordinateurs?page=1"
             df=scrape_data_ordin(url)
@@ -76,11 +69,9 @@ if menu == "📊 Scraper des données":
             df=scrape_data_ordin(url)
     
      #Telecharger les données scrappées  
-    with col2:
-    if st.button("📥 Télécharger les données"):
-        download_dataframe(df)
+    if telecharger_donne:
+        csv = df.to_csv(index=False).encode('utf-8')
         
-
 def load_(dataframe, title):
     st.markdown("""
     <style>
