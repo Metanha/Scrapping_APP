@@ -20,7 +20,7 @@ menu = st.sidebar.radio(
 # 1️⃣ **Scraper des données en temps réel**
 if menu == "📊 Scraper des données":
     st.title("Scraper des données")
-    categorie=st.sidebar.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
+    categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
     
     if st.button("Lancer le scraping"):
