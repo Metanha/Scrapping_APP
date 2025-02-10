@@ -7,8 +7,17 @@ from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
 #--------------------------------------------------------------------------
-############## CODE SCRAPING DES ORDINATEURS
+#Telecharger les données
+def download_dataframe(df):
+    """Permet de télécharger un DataFrame en CSV."""
+    csv = df.to_csv(index=False).encode('utf-8')
+    st.download_button(
+        label="📥 Télécharger les données",
+        data=csv,
+        file_name="donnees_scrapees.csv"
+    )
 
+############## CODE SCRAPING DES ORDINATEURS
 def scrape_data_ordin(url):
     """Scrape les données d'une page Expat-Dakar."""
     
@@ -37,12 +46,6 @@ def scrape_data_ordin(url):
             return None
 
 
-
-
-
-
-
-
 # Configuration de la page , layout="black"
 st.set_page_config(page_title="Web Scraping App")
 
@@ -60,13 +63,19 @@ if menu == "📊 Scraper des données":
     
     if st.button("Lancer le scraping"):
         if categorie=="Ordinateurs":
-
-
-            # Affichage
-            st.dataframe(df)
-        else:
-            st.warning("Veuillez entrer une URL.")
-
+            url="https://www.expat-dakar.com/ordinateurs?page=1"
+            df=scrape_data_ordin(url)
+        elif categorie=="Téléphones":
+            url="https://www.expat-dakar.com/telephones?page=1"
+            df=scrape_data_ordin(url)
+        elif categorie=="Télévision":
+            url="hhttps://www.expat-dakar.com/tv-home-cinema?page=1"
+            df=scrape_data_ordin(url)
+    
+     #Telecharger les données scrappées       
+    elif st.button("📥 Télécharger les données"):
+        download_dataframe(df)
+        
 
 def load_(dataframe, title):
     st.markdown("""
@@ -100,15 +109,7 @@ elif categorie=="Télévision":
 page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
 
 
-def download_dataframe(df):
-    """Permet de télécharger un DataFrame en CSV."""
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button(
-        label="📥 Télécharger les données",
-        data=csv,
-        file_name="donnees_scrapees.csv",
-        mime="text/csv"
-    )
+
 
 url="https://www.expat-dakar.com/ordinateurs?page=1"
 def scrape_data(url):
