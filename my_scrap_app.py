@@ -6,7 +6,7 @@ import requests
 from requests import get
 from bs4 import BeautifulSoup as bs
 import glob
---------------------------------------------------------------------------
+#--------------------------------------------------------------------------
 ############## CODE SCRAPING DES ORDINATEURS
 
 def scrape_data_ordin(url):
