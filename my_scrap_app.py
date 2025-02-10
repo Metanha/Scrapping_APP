@@ -17,6 +17,26 @@ menu = st.sidebar.radio(
     ["📊 Scraper des données", "📥 Télécharger des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"]
 )
 
+# 1️⃣ **Scraper des données en temps réel**
+if menu == "📊 Scraper des données":
+    st.title("Scraper des données")
+    url = st.text_input("Entrez l'URL de la page à scraper :", "")
+    
+    if st.button("Lancer le scraping"):
+        if url:
+            # Exemple de scraping simple
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+
+            # Extraction des données (exemple)
+            titres = [titre.text for titre in soup.find_all("h2")]
+            df = pd.DataFrame({"Titres": titres})
+
+            # Affichage
+            st.dataframe(df)
+        else:
+            st.warning("Veuillez entrer une URL.")
+
 
 def load_(dataframe, title):
     st.markdown("""
