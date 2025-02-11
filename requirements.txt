@@ -11,5 +11,4 @@ beautifulsoup4
 openpyxl
 webdriver-manager
 selenium
-time
-plotly
+
