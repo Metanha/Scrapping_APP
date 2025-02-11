@@ -14,14 +14,4 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 #--------------------------------------------------------------------------
-#Charger les donnéés
-def load_(dataframe, title):
-    st.markdown("""
-    <style>
-    div.stButton {text-align:center}
-    </style>""", unsafe_allow_html=True)
-
-    #if st.button(title, key):
-    st.subheader('Display data dimension')
-    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' lignes et ' + str(dataframe.shape[1]) + ' colonnes.')
-    st.dataframe(dataframe)
+page=st.sidebar.selectbox("Choisissez le nombre de page à scrapper: ",[i for i in range(1,275)])
