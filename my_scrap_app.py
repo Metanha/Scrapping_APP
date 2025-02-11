@@ -68,8 +68,6 @@ menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashbo
 if menu == "📊 Scraper des données":
     st.title("Scraper des données")
     
-    # Sélection du nombre de pages
-    
     categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
     #url = st.text_input("Entrez l'URL de la page à scraper :", "")
     #Creation de deux colonnes pour aligner les boutons sur la même ligne  
@@ -77,7 +75,8 @@ if menu == "📊 Scraper des données":
     with col1:
         lance_scrap=st.button("Lancer le scraping")
     with col2:
-            telecharger_donne=st.button("📥 Télécharger les données")        
+            telecharger_donne=st.button("📥 Télécharger les données")     
+       # Sélection du nombre de pages
     if categorie=="Ordinateurs":
         url="https://www.expat-dakar.com/ordinateurs?page=1"
         num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
@@ -103,27 +102,6 @@ if menu == "📊 Scraper des données":
     if telecharger_donne:
         csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
 
-    # Boutons
-    col1, col2 = st.columns(2)
-    with col1:
-        lancer_scraping = st.button("Lancer le scraping")
-    with col2:
-        telecharger_donnees = st.button("📥 Télécharger les données")
-
-    if lancer_scraping:
-        base_url = urls[categorie]
-        df = scrape_dynamic_site(base_url, num_pages)
-        st.session_state["scraped_data"] = df  # Stocker les données en mémoire
-        st.write(f"📊 **{len(df)} produits trouvés sur {num_pages} pages**")
-        st.dataframe(df)
-
-    if telecharger_donnees:
-        if "scraped_data" in st.session_state and not st.session_state["scraped_data"].empty:
-            df = st.session_state["scraped_data"]
-            csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("📥 Télécharger en CSV", csv, "donnees_scrapees.csv", "text/csv")
-        else:
-            st.warning("Aucune donnée disponible. Lancez d'abord un scraping.")
 
 # 📈 **Dashboard des Données Scrapées**
 elif menu == "📈 Dashboard des données":
