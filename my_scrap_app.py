@@ -3,6 +3,7 @@ import pandas as pd
 import time
 import matplotlib.pyplot as plt
 import plotly.express as px
+import Options
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -79,6 +80,7 @@ if menu == "📊 Scraper des données":
     with col2:
             telecharger_donne=st.button("📥 Télécharger les données")     
        # Sélection du nombre de pages
+    url=""
     if categorie=="Ordinateurs":
         url="https://www.expat-dakar.com/ordinateurs?page=1"
         num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
