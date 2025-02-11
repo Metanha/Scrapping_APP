@@ -4,6 +4,8 @@ import time
 import matplotlib.pyplot as plt
 import plotly.express as px
 from bs4 import BeautifulSoup
+import requests
+from requests import get
 
 def scrape_ordi(url):
     res=get(url) # récupère le code HTML de la page
