@@ -76,9 +76,11 @@ if menu == "📊 Scraper des données":
             df=scrape_ordi(url)
             load_(df,"Ordinateurs")
         elif categorie=="Téléphones":
+            print()
             #df=scrape_dynamic_site(url)
             #load_(df,"Téléphones")
         elif categorie=="Télévision":
+            print()
             #df=scrape_dynamic_site(url)
             #load_(df,"Télévision")
     
