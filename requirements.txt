@@ -12,3 +12,4 @@ openpyxl
 webdriver-manager
 selenium
 plotly
+Options
