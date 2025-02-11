@@ -1,5 +1,3 @@
-pip uninstall pandas
-pip install pandas
 
 import streamlit as st
 import pandas as pd
@@ -14,6 +12,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
+
+def load_(dataframe, title):
+    st.markdown("""
+    <style>
+    div.stButton {text-align:center}
+    </style>""", unsafe_allow_html=True)
+
+    #if st.button(title, key):
+    st.subheader('Display data dimension')
+    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
+    st.dataframe(dataframe)
 
 #Configuration de Selenium
 def get_driver():
