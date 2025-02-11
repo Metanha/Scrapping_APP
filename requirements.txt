@@ -12,5 +12,4 @@ openpyxl
 webdriver-manager
 selenium
 time
-matplotlib
 plotly
