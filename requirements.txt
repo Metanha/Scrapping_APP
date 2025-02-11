@@ -11,3 +11,6 @@ beautifulsoup4
 openpyxl
 webdriver-manager
 selenium
+time
+matplotlib
+plotly
