@@ -5,6 +5,41 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from bs4 import BeautifulSoup
 
+def scrape_ordi(url):
+    res=get(url) # récupère le code HTML de la page
+    soup=bs(res.text,"html.parser") #stocker le code html dans un objet beautifulSoup ,
+    contenairs=soup.find_all("div",class_="listing-card__content 1")
+
+
+    data=pd.DataFrame(columns=["Details","Etat","Marque","Addresse","Prix","Lien_image"])
+    
+    for content in contenairs:
+        try:
+            details=content.find("div",class_="listing-card__header__title").text.replace("\n","").replace("  ","")
+            Etat=content.find("div",class_="listing-card__header__tags").find_all("span")[0].text
+            Marque=content.find("div",class_="listing-card__header__tags").find_all("span")[1].text
+            Addresse=content.find("div",class_="listing-card__header__location").text.replace("\n","").replace("  ","")
+            Prix=content.find("div",class_="listing-card__info-bar__price").find("span",class_="listing-card__price__value 1").text.replace("\n","").replace("F Cfa","").replace("\u202f","").replace(" ","")
+            Lien_image=content.find_all("img", class_="listing-card__image__resource vh-img") #["src"]
+    
+            d=pd.DataFrame({"Details":[details],"Etat":[Etat],"Marque":[Marque],"Addresse":[Addresse],"Prix":[Prix],"Lien_image":[Lien_image]})
+            
+            data=pd.concat([data,d],ignore_index=True)
+        except Exception as e:
+            print(f"Erreur lors de l'extraction d'un contenu : {e}")
+            data=None
+    return data
+
+def load_(dataframe, title):
+    st.markdown("""
+    <style>
+    div.stButton {text-align:center}
+    </style>""", unsafe_allow_html=True)
+
+    #if st.button(title, key):
+    st.subheader('Display data dimension')
+    st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
+    st.dataframe(dataframe)
 
 # Configuration de la page 
 st.set_page_config(page_title="Web Scraping App", layout="wide")
@@ -38,18 +73,20 @@ if menu == "📊 Scraper des données":
     
     if lance_scrap:         
         if categorie=="Ordinateurs":
-            df=scrape_dynamic_site(url)
+            df=scrape_ordi(url)
             load_(df,"Ordinateurs")
         elif categorie=="Téléphones":
-            df=scrape_dynamic_site(url)
-            load_(df,"Téléphones")
+            #df=scrape_dynamic_site(url)
+            #load_(df,"Téléphones")
         elif categorie=="Télévision":
-            df=scrape_dynamic_site(url)
-            load_(df,"Télévision")
+            #df=scrape_dynamic_site(url)
+            #load_(df,"Télévision")
     
      #Telecharger les données scrappées  
     if telecharger_donne:
         csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
+
+
 
 
 # 📈 **Dashboard des Données Scrapées**
