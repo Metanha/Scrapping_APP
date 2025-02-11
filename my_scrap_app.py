@@ -3,7 +3,7 @@ import pandas as pd
 import time
 import matplotlib.pyplot as plt
 import plotly.express as px
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup as bs
 import requests
 from requests import get
 
