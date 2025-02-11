@@ -4,15 +4,23 @@ import time
 import matplotlib.pyplot as plt
 import plotly.express as px
 from bs4 import BeautifulSoup as bs
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import requests
 from requests import get
 
 def scrape_ordi(url):
-    res=get(url) # récupère le code HTML de la page
-    soup=bs(res.text,"html.parser") #stocker le code html dans un objet beautifulSoup ,
-    contenairs=soup.find_all("div",class_="listing-card__content 1")
-
-
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options) 
+    driver.get(url)
+    time.sleep(5)  # Attendre que la page se charge
+    soup = bs(driver.page_source, "html.parser")
+    
+    contenairs = soup.find_all("div", class_="listing-card__content 1")
+    print(f"Nombre d'éléments trouvés : {len(contenairs)}")
+    #driver.quit()
+    
     data=pd.DataFrame(columns=["Details","Etat","Marque","Addresse","Prix","Lien_image"])
     
     for content in contenairs:
