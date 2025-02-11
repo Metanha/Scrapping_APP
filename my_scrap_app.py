@@ -10,47 +10,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
-# 🚀 Configuration de Selenium
-def get_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
-    
-# 🚀 Fonction de scraping dynamique avec pagination
-def scrape_dynamic_site(base_url, num_pages):
-    driver = get_driver()
-    data = pd.DataFrame(columns=["Details", "Etat", "Marque", "Adresse", "Prix", "Lien_image"])
-
-    for page in range(1, num_pages+1):
-        url = f"{base_url}{page}"
-        driver.get(url)
-        time.sleep(3)
-
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        contenairs = soup.find_all("div", class_="listing-card__content 1")
-
-        for content in contenairs:
-            try:
-                details = content.find("div", class_="listing-card__header__title").text.strip()
-                Etat = content.find("div", class_="listing-card__header__tags").find_all("span")[0].text
-                Marque = content.find("div", class_="listing-card__header__tags").find_all("span")[1].text
-                Adresse = content.find("div", class_="listing-card__header__location").text.strip()
-                Prix = content.find("div", class_="listing-card__info-bar__price").find("span", class_="listing-card__price__value 1").text.strip().replace("F Cfa", "").replace("\u202f", "").replace(" ", "")
-                Prix = int(Prix) if Prix.isdigit() else 0  
-                Lien_image = content.find("img", class_="listing-card__image__resource vh-img")["src"] if content.find("img", class_="listing-card__image__resource vh-img") else ""
-
-                d = pd.DataFrame({"Details": [details], "Etat": [Etat], "Marque": [Marque], "Adresse": [Adresse], "Prix": [Prix], "Lien_image": [Lien_image]})
-                data = pd.concat([data, d], ignore_index=True)
-            except Exception as e:
-                print(f"Erreur : {e}")
-
-    driver.quit()
-    return data
 
 # 📌 Configuration de la page 
 st.set_page_config(page_title="Web Scraping App", layout="wide")
