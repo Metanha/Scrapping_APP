@@ -1,47 +1,52 @@
 import streamlit as st
 import pandas as pd
+import time
+import matplotlib.pyplot as plt
+import plotly.express as px
+from bs4 import BeautifulSoup
 
 
-st.markdown("<h1 style='text-align: center; color: black;'>MY DATA APP</h1>", unsafe_allow_html=True)
+# Configuration de la page 
+st.set_page_config(page_title="Web Scraping App", layout="wide")
 
-st.markdown("""
-This app allows you to download scraped data on motocycles from expat-dakar 
-* **Python libraries:** base64, pandas, streamlit
-* **Data source:** [Expat-Dakar](https://www.expat-dakar.com/).
-""")
+# Barre latérale pour la navigation
+menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"])
 
-
-# Fonction de loading des données
-def load_(dataframe, title, key) :
-    st.markdown("""
-    <style>
-    div.stButton {text-align:center}
-    </style>""", unsafe_allow_html=True)
-
-    if st.button(title,key):
-      
-        st.subheader('Display data dimension')
-        st.write('Data dimension: ' + str(dataframe.shape[0]) + ' rows and ' + str(dataframe.shape[1]) + ' columns.')
-        st.dataframe(dataframe)
-
-# définir quelques styles liés aux box
-st.markdown('''<style> .stButton>button {
-    font-size: 12px;
-    height: 3em;
-    width: 25em;
-}</style>''', unsafe_allow_html=True)
-
-          
-# Charger les données 
-load_(pd.read_csv('data/motos_scooters1.csv'), 'Motocycles data 1', '1')
-load_(pd.read_csv('data/motos_scooters2.csv'), 'Motocycles data 2', '2')
-load_(pd.read_csv('data/motos_scooters3.csv'), 'Motocycles data 3', '3')
-load_(pd.read_csv('data/motos_scooters4.csv'), 'Motocycles data 4', '4')
-load_(pd.read_csv('data/motos_scooters5.csv'), 'Motocycles data 5', '5')
-
-
-
-
- 
-
-
+# 📊 **Scraper des données**
+if menu == "📊 Scraper des données":
+    st.title("Scraper des données")
+    
+    categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
+    #url = st.text_input("Entrez l'URL de la page à scraper :", "")
+    #Creation de deux colonnes pour aligner les boutons sur la même ligne  
+    col1,col2=st.columns(2)
+    with col1:
+        lance_scrap=st.button("Lancer le scraping")
+    with col2:
+            telecharger_donne=st.button("📥 Télécharger les données")     
+       # Sélection du nombre de pages
+    url=""
+    if categorie=="Ordinateurs":
+        url="https://www.expat-dakar.com/ordinateurs?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
+    elif categorie=="Téléphones":
+        url="https://www.expat-dakar.com/telephones?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 11, 1)
+    elif categorie=="Télévision":
+        url="https://www.expat-dakar.com/tv-home-cinema?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 12, 1)
+    
+    if lance_scrap:         
+        if categorie=="Ordinateurs":
+            df=scrape_dynamic_site(url)
+            load_(df,"Ordinateurs")
+        elif categorie=="Téléphones":
+            df=scrape_dynamic_site(url)
+            load_(df,"Téléphones")
+        elif categorie=="Télévision":
+            df=scrape_dynamic_site(url)
+            load_(df,"Télévision")
+    
+     #Telecharger les données scrappées  
+    if telecharger_donne:
+        csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
