@@ -11,28 +11,93 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 
+#Configuration de Selenium
+def get_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Exécuter en mode sans interface graphique
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
+    
+# Fonction de scraping dynamique
+def scrape_dynamic_site(url):
+    driver = get_driver()
+    driver.get(url)
+
+    # Attendre le chargement complet
+    time.sleep(3)
+
+    # Récupération du HTML après exécution de JavaScript
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+
+    # Fermer le navigateur après récupération des données
+    driver.quit()
+
+    # Extraction des éléments
+    contenairs = soup.find_all("div", class_="listing-card__content 1")
+    data = pd.DataFrame(columns=["Details", "Etat", "Marque", "Adresse", "Prix", "Lien_image"])
+    
+    for content in contenairs:
+        try:
+            details = content.find("div", class_="listing-card__header__title").text.strip()
+            Etat = content.find("div", class_="listing-card__header__tags").find_all("span")[0].text
+            Marque = content.find("div", class_="listing-card__header__tags").find_all("span")[1].text
+            Adresse = content.find("div", class_="listing-card__header__location").text.strip().replace(",\n","").replace("   ","")
+            Prix = content.find("div", class_="listing-card__info-bar__price").find("span", class_="listing-card__price__value 1").text.strip().replace("F Cfa", "").replace("\u202f", "").replace(" ", "")
+            Lien_image = content.find("img", class_="listing-card__image__resource vh-img")["src"] if content.find("img", class_="listing-card__image__resource vh-img") else ""
+
+            d = pd.DataFrame({"Details": [details], "Etat": [Etat], "Marque": [Marque], "Adresse": [Adresse], "Prix": [Prix], "Lien_image": [Lien_image]})
+            data = pd.concat([data, d], ignore_index=True)
+        except Exception as e:
+            print(f"Erreur lors de l'extraction d'un contenu : {e}")
+
+    return data
+
+
+
 # 📌 Configuration de la page 
 st.set_page_config(page_title="Web Scraping App", layout="wide")
 
 # 📌 Barre latérale pour la navigation
-menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données"])
+menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données"], "📝 Formulaire d'évaluation")
 
 # 📊 **Scraper des données**
 if menu == "📊 Scraper des données":
     st.title("Scraper des données")
     
     # Sélection du nombre de pages
-    num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
     
-    # Sélection de la catégorie
-    categorie = st.radio("Choisissez les données à scraper", ["Ordinateurs", "Téléphones", "Télévision"])
+    categorie=st.radio("Choisissez les données à scrapper ",["Ordinateurs","Téléphones","Télévision"])
+    #url = st.text_input("Entrez l'URL de la page à scraper :", "")
+    #Creation de deux colonnes pour aligner les boutons sur la même ligne  
+    col1,col2=st.columns(2)
+    with col1:
+        lance_scrap=st.button("Lancer le scraping")
+    with col2:
+            telecharger_donne=st.button("📥 Télécharger les données")
+    if lance_scrap:         
+        if categorie=="Ordinateurs":
+            url="https://www.expat-dakar.com/ordinateurs?page=1"
+            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
+            df=scrape_dynamic_site(url)
+            load_(df,"Ordinateurs")
+        elif categorie=="Téléphones":
+            url="https://www.expat-dakar.com/telephones?page=1"
+            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 11, 1)
+            df=scrape_dynamic_site(url)
+            load_(df,"Téléphones")
+        elif categorie=="Télévision":
+            url="https://www.expat-dakar.com/tv-home-cinema?page=1"
+            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 12, 1)
+            df=scrape_dynamic_site(url)
+            load_(df,"Télévision")
     
-    # Mapping des URLs
-    urls = {
-        "Ordinateurs": "https://www.expat-dakar.com/ordinateurs?page=",
-        "Téléphones": "https://www.expat-dakar.com/telephones?page=",
-        "Télévision": "https://www.expat-dakar.com/tv-home-cinema?page="
-    }
+     #Telecharger les données scrappées  
+    if telecharger_donne:
+        csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
 
     # Boutons
     col1, col2 = st.columns(2)
