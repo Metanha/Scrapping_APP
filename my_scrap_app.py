@@ -77,21 +77,25 @@ if menu == "📊 Scraper des données":
     with col1:
         lance_scrap=st.button("Lancer le scraping")
     with col2:
-            telecharger_donne=st.button("📥 Télécharger les données")
+            telecharger_donne=st.button("📥 Télécharger les données")        
+    if categorie=="Ordinateurs":
+        url="https://www.expat-dakar.com/ordinateurs?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
+    elif categorie=="Téléphones":
+        url="https://www.expat-dakar.com/telephones?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 11, 1)
+    elif categorie=="Télévision":
+        url="https://www.expat-dakar.com/tv-home-cinema?page=1"
+        num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 12, 1)
+    
     if lance_scrap:         
         if categorie=="Ordinateurs":
-            url="https://www.expat-dakar.com/ordinateurs?page=1"
-            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 10, 1)
             df=scrape_dynamic_site(url)
             load_(df,"Ordinateurs")
         elif categorie=="Téléphones":
-            url="https://www.expat-dakar.com/telephones?page=1"
-            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 11, 1)
             df=scrape_dynamic_site(url)
             load_(df,"Téléphones")
         elif categorie=="Télévision":
-            url="https://www.expat-dakar.com/tv-home-cinema?page=1"
-            num_pages = st.sidebar.slider("Nombre de pages à scraper :", 1, 12, 1)
             df=scrape_dynamic_site(url)
             load_(df,"Télévision")
     
