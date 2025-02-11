@@ -62,7 +62,7 @@ def scrape_dynamic_site(url):
 st.set_page_config(page_title="Web Scraping App", layout="wide")
 
 # 📌 Barre latérale pour la navigation
-menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données"], "📝 Formulaire d'évaluation")
+menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"])
 
 # 📊 **Scraper des données**
 if menu == "📊 Scraper des données":
