@@ -50,3 +50,39 @@ if menu == "📊 Scraper des données":
      #Telecharger les données scrappées  
     if telecharger_donne:
         csv = df.to_csv(path_or_buf="data/donnees_scrapes.csv",index=False).encode('utf-8')
+
+
+# 📈 **Dashboard des Données Scrapées**
+elif menu == "📈 Dashboard des données":
+    st.title("📊 Dashboard des Données Scrapées")
+
+    if "scraped_data" in st.session_state and not st.session_state["scraped_data"].empty:
+        df = st.session_state["scraped_data"]
+
+        # **Histogramme des Prix**
+        st.subheader("📈 Distribution des Prix")
+        fig, ax = plt.subplots()
+        ax.hist(df["Prix"], bins=20, color="blue", alpha=0.7)
+        ax.set_xlabel("Prix (F CFA)")
+        ax.set_ylabel("Nombre de produits")
+        ax.set_title("Distribution des prix")
+        st.pyplot(fig)
+
+        # **Répartition des Marques**
+        st.subheader("🎯 Répartition des Marques")
+        fig_pie = px.pie(df, names="Marque", title="Répartition des Marques", hole=0.4)
+        st.plotly_chart(fig_pie)
+
+        # **Comparaison des prix par marque**
+        st.subheader("💰 Comparaison des Prix par Marque")
+        fig_bar = px.bar(df, x="Marque", y="Prix", title="Prix moyen par marque", color="Marque", barmode="group")
+        st.plotly_chart(fig_bar)
+
+        # **Tableau interactif avec filtres**
+        st.subheader("📜 Table des Données Filtrables")
+        marque_filter = st.multiselect("Filtrer par Marque :", df["Marque"].unique())
+        if marque_filter:
+            df = df[df["Marque"].isin(marque_filter)]
+        st.dataframe(df)
+    else:
+        st.warning("Aucune donnée disponible. Faites d'abord un scraping.")
