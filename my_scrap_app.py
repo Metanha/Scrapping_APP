@@ -1,3 +1,6 @@
+unstall pandas
+install pandas
+
 import streamlit as st
 import pandas as pd
 import time
@@ -61,10 +64,10 @@ def scrape_dynamic_site(url):
 
 
 
-# 📌 Configuration de la page 
+# Configuration de la page 
 st.set_page_config(page_title="Web Scraping App", layout="wide")
 
-# 📌 Barre latérale pour la navigation
+# Barre latérale pour la navigation
 menu = st.sidebar.radio("Navigation", ["📊 Scraper des données", "📈 Dashboard des données", "📝 Formulaire d'évaluation"])
 
 # 📊 **Scraper des données**
