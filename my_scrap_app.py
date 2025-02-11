@@ -15,8 +15,10 @@ from bs4 import BeautifulSoup
 def get_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Exécuter en mode sans interface graphique
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu") #desactive gpu
+    chrome_options.add_argument("--no-sandbox") #desactive le bac à sable
+    chrome_options.add_argument("--disable-dev-shm-usage") #evite les problème de memoire partage
+    chrome_options.add_argument("--remote-debugging-port=9222") # Débogage à distance
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
