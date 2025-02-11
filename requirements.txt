@@ -13,3 +13,5 @@ webdriver-manager
 selenium
 plotly
 Options
+pandas==1.5.3  # Compatible avec Python 3.12
+pandas==2.0.3  # Autre version stable
