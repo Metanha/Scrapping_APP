@@ -86,3 +86,12 @@ elif menu == "📈 Dashboard des données":
         st.dataframe(df)
     else:
         st.warning("Aucune donnée disponible. Faites d'abord un scraping.")
+
+# 📝 Formulaire d'évaluation**
+elif menu == "📝 Formulaire d'évaluation":
+    st.title("📝 Formulaire d'évaluation")
+    
+    kobo_link = "<iframe src=https://ee.kobotoolbox.org/i/TOv0huae width="800" height="600"></iframe>"
+    st.markdown(f'<iframe src="{kobo_link}" width="700" height="800"></iframe>', unsafe_allow_html=True)
+
+
