@@ -9,7 +9,10 @@ seaborn
 pybase64
 beautifulsoup4
 openpyxl
-webdriver-manager
-selenium
+#webdriver-manager
+#selenium
 plotly
-chromedriver-autoinstaller
+#chromedriver-autoinstaller
+selenium==4.15.2
+webdriver-manager==3.8.6  # Gère automatiquement les drivers
+chromedriver-autoinstaller==0.6.0
