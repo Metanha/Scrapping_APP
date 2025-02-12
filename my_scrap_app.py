@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import time
@@ -11,14 +12,26 @@ from webdriver_manager.chrome import ChromeDriverManager
 import requests
 from requests import get
 
+# Installer Chromium et ChromeDriver
+os.system("apt update")
+os.system("apt install -y chromium-chromedriver")
+
+# Définir les chemins d'accès pour Selenium
+os.environ["CHROME_BINARY"] = "/usr/bin/chromium-browser"
+os.environ["webdriver.chrome.driver"] = "/usr/bin/chromedriver"
+
 def get_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")  
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.binary_location = "/usr/bin/chromium-browser"  # 🔥 Ajout du chemin vers Chromium
+    service = Service("/usr/bin/chromedriver")  # 🔥 Ajout du chemin vers ChromeDriver
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
 
-    service = Service(ChromeDriverManager().install())
-    return webdriver.Chrome(service=service, options=chrome_options)
+    #service = Service(ChromeDriverManager().install())
+    #return webdriver.Chrome(service=service, options=chrome_options)
 
 def scrape_ordi(url):
     driver = get_driver()
