@@ -35,6 +35,9 @@ def get_driver():
     #return webdriver.Chrome(service=service, options=chrome_options)
 
 def scrape_ordi(url):
+    logging.info("Démarrage du navigateur headless...")
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    soup = BeautifulSoup(response.content, 'html.parser')
     driver = get_driver()
     driver.get(url)
     time.sleep(3)  # Attendre que la page se charge
