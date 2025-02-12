@@ -6,21 +6,30 @@ import plotly.express as px
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import requests
 from requests import get
 
+def get_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    service = Service(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=chrome_options)
+
 def scrape_ordi(url):
-    options = Options()
-    options.add_argument("--headless")
-    driver = webdriver.Chrome(options=options) 
+    driver = get_driver()
     driver.get(url)
-    time.sleep(5)  # Attendre que la page se charge
-    soup = bs(driver.page_source, "html.parser")
+    time.sleep(3)  # Attendre que la page se charge
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    driver.get(url)
+    #driver = webdriver.Chrome(options=options) 
+    #soup = bs(driver.page_source, "html.parser")
     
-    contenairs = soup.find_all("div", class_="listing-card__content 1")
-    print(f"Nombre d'éléments trouvés : {len(contenairs)}")
-    #driver.quit()
-    
+    contenairs = soup.find_all("div", class_="listing-card__content 1")    
     data=pd.DataFrame(columns=["Details","Etat","Marque","Addresse","Prix","Lien_image"])
     
     for content in contenairs:
