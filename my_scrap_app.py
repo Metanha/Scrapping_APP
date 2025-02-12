@@ -107,7 +107,7 @@ if menu == "📊 Scraper des données":
     if lance_scrap:         
         if categorie=="Ordinateurs":
             df=scrape_ordi(url)
-            load_(df,"Ordinateurs")
+            st.dataframe(data)
         elif categorie=="Téléphones":
             print()
             #df=scrape_dynamic_site(url)
